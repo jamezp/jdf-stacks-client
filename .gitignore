@@ -6,3 +6,9 @@ target
 *.jar
 *.war
 *.ear
+
+#Ignore Intellij files
+*.iml
+*.iws
+*.ipr
+.idea/
