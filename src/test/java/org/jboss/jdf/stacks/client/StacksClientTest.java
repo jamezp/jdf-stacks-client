@@ -19,6 +19,7 @@ package org.jboss.jdf.stacks.client;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -26,13 +27,14 @@ import java.util.logging.Logger;
 
 import junit.framework.Assert;
 
-import org.jboss.jdf.stacks.model.Stacks;
+import org.jboss.jdf.stacks.model.*;
+import org.jboss.jdf.stacks.model.Runtime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 public class StacksClientTest {
 
@@ -140,6 +142,29 @@ public class StacksClientTest {
         } catch (Exception e) {
             Assert.fail("Should fall back to Classpath");
         }
+    }
+
+    @Test
+    public void testAvailableRuntimeWithFilter() throws Exception {
+        final Filter<MajorRelease> wildflyFilter = new Filter<MajorRelease>() {
+            @Override
+            public boolean accept(final MajorRelease obj) {
+                return obj.getName().contains("Wildfly");
+            }
+        };
+        final StacksClient client = new StacksClient();
+        final Stacks stacks = client.getStacks();
+        final List<MajorRelease> wildflyReleases = stacks.getMajorReleases(wildflyFilter);
+        Assert.assertFalse("There should be at least one WildFly release", wildflyReleases.isEmpty());
+        // Inspect for at least version 8
+        boolean found = false;
+        for (MajorRelease release : wildflyReleases) {
+            if (release.getRecommendedRuntime().getVersion().startsWith("8")) {
+                found = true;
+                break;
+            }
+        }
+        Assert.assertTrue("Should have found version 8.x.x", found);
     }
 
 }

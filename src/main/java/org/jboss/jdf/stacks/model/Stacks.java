@@ -23,17 +23,31 @@ public interface Stacks {
 
     public List<Archetype> getAvailableArchetypes();
 
+    public List<Archetype> getAvailableArchetypes(Filter<Archetype> filter);
+
     public List<Runtime> getAvailableRuntimes();
+
+    public List<Runtime> getAvailableRuntimes(Filter<Runtime> filter);
 
     public List<Bom> getAvailableBoms();
 
+    public List<Bom> getAvailableBoms(Filter<Bom> filter);
+
     public List<MinorRelease> getMinorReleases();
+
+    public List<MinorRelease> getMinorReleases(Filter<MinorRelease> filter);
 
     public List<MajorRelease> getMajorReleases();
 
+    public List<MajorRelease> getMajorReleases(Filter<MajorRelease> filter);
+
     public List<BomVersion> getAvailableBomVersions();
 
+    public List<BomVersion> getAvailableBomVersions(Filter<BomVersion> filter);
+
     public List<ArchetypeVersion> getAvailableArchetypeVersions();
+
+    public List<ArchetypeVersion> getAvailableArchetypeVersions(Filter<ArchetypeVersion> filter);
 
     public List<String> getLicenses();
 
